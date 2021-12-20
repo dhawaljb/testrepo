@@ -1,0 +1,41 @@
+using AccopsAutomationFramework.Base;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+
+namespace AccopsAutomationFramework.Helpers
+{
+
+    public class JsonReader
+
+    {
+
+        private static StreamReader reader = File.OpenText(TestInitializeHook.TEST_DATA_PATH + "TestData.json");
+        private static string json = reader.ReadToEnd();
+
+        public JsonReader()
+        {
+
+
+        }
+
+        public static string GetJsonTestData(string testCaseName, string testDataName)
+        {
+            try
+            {
+                dynamic array = JsonConvert.DeserializeObject(json);
+
+                string rssTitle = array["TestData"][testCaseName][0][testDataName];
+
+                return rssTitle;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception while accessing test data: " + e);
+                return null;
+            }
+        }
+
+    }
+}
